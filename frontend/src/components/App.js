@@ -38,6 +38,8 @@ class App extends Component {
     this.readAllZone = this.readAllZone.bind(this);
     this.deleteZone = this.deleteZone.bind(this);
 
+    this.registerZone = this.registerZone.bind(this)
+
     // doesnt work dont know why
     //this._initialiseEthers = this.initialiseEthers.bind(this);
    // this._logMetamaskError = this.logMetamaskError.bind(this);
@@ -51,7 +53,7 @@ class App extends Component {
     await this.getAddressFromMetaMask();
 
     // initilising with the contract
-    //this._initialiseEthers();
+    this._intialiseEthers();
 
     if (this.state.accounts) {
       console.log("connected to provider!");
@@ -71,11 +73,13 @@ class App extends Component {
   }
 
   _intialiseEthers() {
+    this._provider = new ethers.providers.Web3Provider(window.ethereum);
     this._zones = new ethers.Contract(
-      contractAddress.zones,
+      contractAddress.Zones,
       zoneArtifact.abi,
-      this.state.accounts[0]
+      this._provider.getSigner(0)
     );
+    window.contract = this._zones;
   }
 
   async registerZone(zoneName, parentAcc, approved) {
@@ -83,7 +87,7 @@ class App extends Component {
       console.log('registering ', zoneName);
       const tx = await this._zones.registerZone(zoneName, parentAcc, false);
       await tx.wait();
-
+      console.log(tx);
       // HAVEN'T figured out how to handle the emitted events...
       // not sure if this sollution works or not
       console.log("successfully registered", zoneName)
@@ -155,9 +159,11 @@ class App extends Component {
                     box = {this.state.box}
                     space = {this.state.space}
                     readAllZone = {this.readAllZone}
+                    registerZone = {this.registerZone}
                     registeredZones = {this.state.registeredZones}
                     zoneToRegister = {this.state.zoneToRegister}
-                    setZoneToRegister={this.setZoneToRegister} />
+                    setZoneToRegister={this.setZoneToRegister}
+                     />
                 </Route>
                 <Route path="/approve">
                   <Approve
