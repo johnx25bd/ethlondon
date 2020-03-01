@@ -17,7 +17,7 @@ import Register from './register/Register'
 import Approve from './approve/Approve'
 
 
-var registeredZones = require('../registeredTestZonesSmall.json');
+var registeredZones = require('../registeredZones.json');
 
 // import Approve from './approve/Approve'
 
@@ -104,20 +104,20 @@ class App extends Component {
             {this.state.accounts && (
               <Switch>
                 <Route path="/register">
-                  <Register 
-                    addr = {this.state.accounts[0]} 
-                    box = {this.state.box} 
-                    space = {this.state.space} 
+                  <Register
+                    addr = {this.state.accounts[0]}
+                    box = {this.state.box}
+                    space = {this.state.space}
                     readAllZone = {this.readAllZone}
-                    registeredZones = {this.state.registeredZones} 
-                    zoneToRegister = {this.state.zoneToRegister} 
+                    registeredZones = {this.state.registeredZones}
+                    zoneToRegister = {this.state.zoneToRegister}
                     setZoneToRegister={this.setZoneToRegister} />
                 </Route>
                 <Route path="/approve">
-                  <Approve 
-                    addr = {this.state.accounts[0]} 
-                    box = {this.state.box} 
-                    space = {this.state.space} 
+                  <Approve
+                    addr = {this.state.accounts[0]}
+                    box = {this.state.box}
+                    space = {this.state.space}
                     readAllZone = {this.readAllZone}
                     registeredZones = {this.state.registeredZones}/>
                 </Route>

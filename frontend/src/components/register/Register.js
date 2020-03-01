@@ -58,26 +58,38 @@ export default class Register extends Component {
 
 
         // Load registered zones on map.
-        map.on('style.load', () => {
+        await map.on('style.load', () => {
             this.props.registeredZones.forEach( (registeredZone, i) => {
 
             console.log(i, registeredZone)
-            map.addSource(registeredZone.properties.ID + '-source', {
+            map.addSource(registeredZone.properties.id + '-source', {
                 "type": 'geojson',
                 'data': registeredZone
             });
 
             map.addLayer({
-                'id': registeredZone.properties.ID,
+                'id': registeredZone.properties.id,
                 'type': 'fill',
-                'source': registeredZone.properties.ID + '-source',
+                'source': registeredZone.properties.id + '-source',
                 'layout': {},
                 'paint': {
-                'fill-color': color[i],
-                'fill-opacity': 0.4
+                  'fill-color': color[i],
+                  'fill-opacity': 0.2
                 }
-            });
-            })
+            },  "country-label");
+
+
+            map.addLayer({
+              'id': registeredZone.properties.id + '-border',
+              'type': 'line',
+              'source': registeredZone.properties.id + '-source',
+              'layout': {},
+              'paint': {
+                'line-color': color[i],
+                'line-width': 2
+              }
+            },  "state-label");
+          })
         });
 
         this.setState({map : map});
@@ -98,10 +110,22 @@ export default class Register extends Component {
           'source': 'zone-to-register-source',
           'layout': {},
           'paint': {
-          'fill-color': "yellow",
+          'fill-color': "#ff6700",
           'fill-opacity': 0.4
           }
-      });
+      },  "settlement-label");
+
+      this.state.map.addLayer({
+        'id': 'zone-to-register-border',
+        'type': 'line',
+        'source': 'zone-to-register-source',
+        'layout': {},
+        'paint': {
+          'line-color': "#ff6700",
+          'line-width': 2
+        }
+      }, "country-label");
+
 
       this.state.map.fitBounds(bbox(polygon),
           {padding: {
@@ -110,6 +134,7 @@ export default class Register extends Component {
             top: 150,
             bottom: 150
           }});
+
 
       // if polygon.parent is not null, add parent wallet address to
     }
@@ -123,12 +148,12 @@ export default class Register extends Component {
 
         await this.props.space.public.set(this.state.zoneName, JSON.stringify(this.props.zoneToRegister, null, 2))
         .then(console.log("save success"));
-        
+
         this.props.readAllZone();
 
         this.setState({ zoneName: ''});
 
-        
+
 
     }
 
