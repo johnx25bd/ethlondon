@@ -81,7 +81,7 @@ class App extends Component {
     });
   }
 
-  async registerZone(zoneName, parentAcc, approved) {
+  async registerZone(zoneName, parentAcc, approved,selector_1, selector_2) {
     try {
       console.log("registering ", zoneName);
       const tx = await this._zones.registerZone(zoneName, parentAcc, false);
@@ -91,7 +91,7 @@ class App extends Component {
       // not sure if this sollution works or not
       console.log("successfully registered", zoneName);
 
-      d3.select('.overlay')
+      d3.select(selector_1)
         .append('a')
           .attr('href', 'https://ropsten.etherscan.io/tx/' + tx.hash)
           .attr('target', '_blank')
@@ -101,7 +101,7 @@ class App extends Component {
           
 
 
-      d3.select('#submit-button')
+      d3.select(selector_2)
         .remove()
 
 

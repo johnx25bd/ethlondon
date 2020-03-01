@@ -152,7 +152,9 @@ export default class Register extends Component {
     let res = await this.props.registerZone(
       this.state.zoneName,
       parentAddress,
-      false
+      false,
+      ".overlay",
+      "#submit-button"
     );
 
 
