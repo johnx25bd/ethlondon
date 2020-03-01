@@ -90,26 +90,33 @@ export default class Register extends Component {
 
     async addPolygonToMap (polygon) {
 
-    this.state.map.addSource('zone-to-register-source', {
-        "type": 'geojson',
-        'data': polygon
-    });
+      this.state.map.addSource('zone-to-register-source', {
+          "type": 'geojson',
+          'data': polygon
+      });
 
-    this.state.map.addLayer({
-        'id': 'zone-to-register',
-        'type': 'fill',
-        'source': 'zone-to-register-source',
-        'layout': {},
-        'paint': {
-        'fill-color': "yellow",
-        'fill-opacity': 0.4
-        }
-    });
+      this.state.map.addLayer({
+          'id': 'zone-to-register',
+          'type': 'fill',
+          'source': 'zone-to-register-source',
+          'layout': {},
+          'paint': {
+          'fill-color': "yellow",
+          'fill-opacity': 0.4
+          }
+      });
 
-    this.state.map.fitBounds(bbox(polygon),
-        {padding: 150}
-        );
+      this.state.map.fitBounds(bbox(polygon),
+          {padding: {
+            left:150,
+            right: 500,
+            top: 150,
+            bottom: 150
+          }});
+
+      // if polygon.parent is not null, add parent wallet address to
     }
+
 
     async registerPolygon(e) {
         e.preventDefault();
@@ -140,10 +147,15 @@ export default class Register extends Component {
                     {/* RegisterMap */}
                 </div>
                 <Form className = "overlay">
+                <h3>Register a zone</h3>
+
+                    <Form.Label className = "text-primary mt-3 mb-0">
+                        Zone Polygon
+                    </Form.Label>
                     <FileUploader registeredZones = {this.props.registeredZones} setZoneToRegister={this.props.setZoneToRegister} addPolygonToMap = {this.addPolygonToMap} />
 
                     <Form.Group controlId="zoneName">
-                        <Form.Label className = "text-primary">
+                        <Form.Label className = "text-primary mt-3 mb-0">
                             Zone Name
                         </Form.Label>
                         <Form.Control type="text" placeholder="Enter your zone name here" name = "zoneName" onChange = {this.handleChange} />
@@ -151,15 +163,15 @@ export default class Register extends Component {
                     </Form.Group>
 
                     <Form.Group controlId="address">
-                        <Form.Label className = "text-primary">
+                        <Form.Label className = "text-primary mt-3 mb-0">
                             Ethereum Wallet Address
                         </Form.Label>
                         <Form.Control readOnly className = "text-muted" placeholder = {this.props.addr} />
 
                     </Form.Group>
 
-                    <Button variant="primary" type="submit" onClick={this.registerPolygon}>
-                        Submit
+                    <Button variant="primary" type="submit" style = {{float: "right"}} onClick={this.registerPolygon}>
+                        Register zone
                     </Button>
                 </Form>
 

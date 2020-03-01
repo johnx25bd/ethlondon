@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Row, Col, Button, Card}from 'react-bootstrap';
+import {Form, Row, Col, Button, Card}from 'react-bootstrap';
 import mapbox from 'mapbox-gl'
 import * as d3 from "d3"
 import turf from "@turf/turf"
@@ -71,13 +71,17 @@ export default class Approve extends Component{
         return (
             <div>
                 <div id="main-map" style = {{"position":"absolute",}}></div>
-                
+
 
                     {/* request zone name*/}
                     {/* request owner */}
                 <div className = "overlay cardgroup">
+                <Form className = "overlay">
+                <h3>Review Zones</h3>
+
                     <Request />
                     <Request />
+                  </Form>
                 </div>
         </div>
         );

@@ -122,11 +122,11 @@ export default function FileUploader(props) {
         <section className="container">
         <div {...getRootProps({style})}>
             <input {...getInputProps()} />
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <p>Drag and drop a Geojson file here, or click to select.</p>
             <em>(Only *.json files will be accepted)</em>
         </div>
         <aside>
-            <h6 className = "text-primary">Accepted GeoJSON:</h6>
+            <p>Accepted GeoJSON:</p>
             <ul>
             {acceptedFilesItems}
             </ul>

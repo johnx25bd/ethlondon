@@ -4,7 +4,7 @@ import {Row, Col, Button, Card}from 'react-bootstrap';
 export default class Request extends Component {
     render() {
         return(
-            <Card border="primary" style = {{"margin" : "2em",}}>
+            <Card border="primary" className="zone-review">
                 <Card.Header>Zone Name</Card.Header>
                 <Card.Body>
                     <Card.Text>

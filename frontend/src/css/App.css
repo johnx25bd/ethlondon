@@ -50,34 +50,78 @@
 }
 
 .overlay {
-  position: fixed; 
+  position: fixed;
   top: 20%;
   right: 5%;
 
-  
+
   width: 450px;
 
-  background: rgba(255, 255, 255, 0.5); /* White see-through */
-  color: #282c34; 
-
+  background: rgba(255, 255, 255); /* White see-through */
+  color: #282c34;
+  border-radius: 30px;
   transition: .5s ease;
   opacity:1;
   font-size: 20px;
-  padding: 20px;
+  padding: 30px 35px 30px 35px;
   text-align: left;
 }
 
-.navbar {
-  background: rgba(255, 255, 255, 0.5); /* White see-through */
+.container {
+  padding: 0px!important;
 }
 
+.container p {
+  margin: 10px;
+  font-size: 15px;
+
+}
+
+.container em {
+  font-size: 12px;
+}
+
+.zone-review {
+  margin-left: 0em;
+  margin-right: 0em;
+  margin-bottom: 1em;
+}
+
+.navbar {
+  background: rgba(255, 255, 255); /* White see-through */
+  border-bottom: 1px solid lightgrey;
+  height: 55px;
+}
+#logo {
+  margin-left: 10%;
+}
+
+#logo span {
+  margin-right: 10px;
+  font-size: 22px;
+}
+
+.nav-links {
+  margin-left: auto;
+  margin-right: 15%;
+}
+
+.nav-link {
+  display: inline!important;
+}
+.nav-link.active {
+  font-weight: 900;
+}
 .button {
   margin : 1em;
 }
 
-.card{
+/* .mb-0 {
+  margin-bottom: 0px;
+} */
+/* .card{
   margin : 1em;
-}
+} */
 
 .cardgroup {
   top: 15%;
