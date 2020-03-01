@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { ethers } from "ethers";
 import Box from "3box";
+import * as d3 from 'd3'
 
 import zoneArtifact from "../contracts/zonesABI.json";
 import contractAddress from "../contracts/zonesAddress.json";
@@ -89,6 +90,21 @@ class App extends Component {
       // HAVEN'T figured out how to handle the emitted events...
       // not sure if this sollution works or not
       console.log("successfully registered", zoneName);
+
+      d3.select('.overlay')
+        .append('a')
+          .attr('href', 'https://ropsten.etherscan.io/tx/' + tx.hash)
+          .attr('target', '_blank')
+          .attr('id', 'view-on-etherscan')
+          .classed('btn-success', true)
+          .text('View on Etherscan')
+          
+
+
+      d3.select('#submit-button')
+        .remove()
+
+
     } catch (error) {
       this._logMetamaskError("Error registering for " + zoneName, error);
       console.error(error);
