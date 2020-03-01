@@ -140,6 +140,11 @@ export default class Register extends Component {
 
   async registerPolygon(e) {
     e.preventDefault();
+    d3.select('#submit-button')
+      .classed('btn-primary', false)
+      .classed('btn-outline-primary', true)
+      .html("<div class='spinner-border' role='status'><span class='sr-only' style='height:10px;'>Loading...</span></div>... registering");
+
     let geoJson = this.props.zoneToRegister;
     let parentAddress = geoJson.properties.address;
     let zoneID =
@@ -149,9 +154,17 @@ export default class Register extends Component {
       parentAddress,
       false
     );
+
+
+
     await this.props.space.public
       .set(zoneID, JSON.stringify(geoJson, null, 2))
-      .then(console.log("save success"));
+      .then(function () {
+        console.log("save success")
+
+      });
+
+
     this.setState({ zoneName: "" });
   }
 
@@ -197,6 +210,7 @@ export default class Register extends Component {
           </Form.Group>
 
           <Button
+            id='submit-button'
             variant="primary"
             type="submit"
             style={{ float: "right" }}

@@ -116,13 +116,10 @@
   margin : 1em;
 }
 
-/* .mb-0 {
-  margin-bottom: 0px;
-} */
-/* .card{
-  margin : 1em;
-} */
-
+.btn .spinner-border {
+  height: 1.5rem;
+  width: 1.5rem;
+}
 .home-content {
   margin-top: 16%;
 }
