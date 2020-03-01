@@ -17,6 +17,7 @@ import contractAddress from "../contracts/zonesAddress.json"
 import NavBar from './NavBar'
 import Register from './register/Register'
 import Approve from './approve/Approve'
+import Home from './Home'
 
 
 var registeredZones = require('../registeredZones.json');
@@ -93,7 +94,7 @@ class App extends Component {
     }
   }
 
-  
+
 
   _logMetamaskError(title, error) {
     if (error.data.message) {
@@ -165,6 +166,9 @@ class App extends Component {
                     space = {this.state.space}
                     readAllZone = {this.readAllZone}
                     registeredZones = {this.state.registeredZones}/>
+                </Route>
+                <Route path = '/'>
+                  <Home />
                 </Route>
               </Switch>
             )}

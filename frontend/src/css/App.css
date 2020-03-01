@@ -123,6 +123,20 @@
   margin : 1em;
 } */
 
+.home-content {
+  margin-top: 16%;
+}
+
+.home-content span {
+  font-size: 70px;
+  margin-right: 35px;
+}
+
+.home-content p {
+  font-size: 32px;
+}
+
+
 .cardgroup {
   top: 15%;
   right: 5%;

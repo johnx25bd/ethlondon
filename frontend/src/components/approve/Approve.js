@@ -38,31 +38,22 @@ export default class Approve extends Component{
             zoom: 2.7,
         });
 
-        console.log('zoneToApprove', zoneToApprove);
-
-        // Connect to contract
-
-        // Pull all registered addresses
-
-        // Pull all 3box spaces
-
-        // get array of approved GeoJSON files
+        await this.setState({map : map});
 
 
 
         // Load registered zones on map.
-        await map.on('style.load', () => {
+        await this.state.map.on('style.load', () => {
 
 
             this.props.registeredZones.forEach( (registeredZone, i) => {
 
-            console.log(i, registeredZone)
-            map.addSource(registeredZone.properties.id + '-source', {
+            this.state.map.addSource(registeredZone.properties.id + '-source', {
                 "type": 'geojson',
                 'data': registeredZone
             });
 
-            map.addLayer({
+            this.state.map.addLayer({
                 'id': registeredZone.properties.id,
                 'type': 'fill',
                 'source': registeredZone.properties.id + '-source',
@@ -73,7 +64,7 @@ export default class Approve extends Component{
                 }
             }, "country-label");
 
-            map.addLayer({
+            this.state.map.addLayer({
               'id': registeredZone.properties.id + '-border',
               'type': 'line',
               'source': registeredZone.properties.id + '-source',
@@ -86,12 +77,12 @@ export default class Approve extends Component{
           });
 
 
-          map.addSource('zone-to-approve-source', {
+          this.state.map.addSource('zone-to-approve-source', {
               "type": 'geojson',
               'data': zoneToApprove
           });
 
-          map.addLayer({
+          this.state.map.addLayer({
               'id': 'zone-to-approve',
               'type': 'fill',
               'source': 'zone-to-approve-source',
@@ -102,7 +93,7 @@ export default class Approve extends Component{
               }
           },  "settlement-label");
 
-          map.addLayer({
+          this.state.map.addLayer({
             'id': 'zone-to-approve-border',
             'type': 'line',
             'source': 'zone-to-approve-source',
@@ -118,27 +109,57 @@ export default class Approve extends Component{
 
         });
 
-        this.setState({map : map});
-        console.log("test: ", this.state.map)
 
         // Put them into turf objects
 
     }
 
     async rejectZone (e) {
-      console.log(this.state.map)
-      console.log("REJECT ZONE!")
+
+      this.state.map.setPaintProperty('zone-to-approve', 'fill-color', 'red')
+      this.state.map.setPaintProperty('zone-to-approve', 'fill-opacity', 1.0)
+      this.state.map.setPaintProperty('zone-to-approve-border', 'line-color', 'darkred')
+
+      d3.select('#zone-to-register')
+        .classed('rejected', true)
+        .classed('approved', false);
+
+      d3.select('#approve-zone')
+        .classed('btn-outline-success', true)
+        .classed('btn-success', false);
+
+      d3.select('#reject-zone')
+        .classed('btn-outline-danger', false )
+        .classed('btn-danger', true);
+
+      // Call up metamask <<
     }
 
     async approveZone (e) {
-      // this.state.map.
-        // ^^
-        console.log("APPROVE ZONE!")
+
+      this.state.map.setPaintProperty('zone-to-approve', 'fill-color', '#008000')
+      this.state.map.setPaintProperty('zone-to-approve', 'fill-opacity', 1.9)
+      this.state.map.setPaintProperty('zone-to-approve-border', 'line-color', '#008000')
+
+      d3.select('#zone-to-register')
+        .classed('approved', true)
+        .classed('rejected', false);
+
+      d3.select('#approve-zone')
+        .classed('btn-outline-success', false)
+        .classed('btn-success', true);
+
+      d3.select('#reject-zone')
+        .classed('btn-outline-danger', true)
+        .classed('btn-danger', false)
+
+      // call up metamask <<
     }
 
     // async
 
     render() {
+        console.log("when rendered", this.state.map)
         return (
             <div>
                 <div id="main-map" style = {{"position":"absolute",}}></div>
@@ -150,7 +171,7 @@ export default class Approve extends Component{
                 <Form className = "overlay">
                 <h3>Review Zones</h3>
 
-                    <Request approveZone = {this.approveZone} rejectZone = {this.rejectZone} map = {this.state.map} />
+                    <Request approveZone = {this.approveZone} rejectZone = {this.rejectZone}  />
                   </Form>
                 </div>
         </div>
