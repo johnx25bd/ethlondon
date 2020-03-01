@@ -112,16 +112,13 @@ export default class Register extends Component {
         e.preventDefault();
 
         // call registerZone on ethers contract ...
-
-
+        
         await this.props.space.public.set(this.state.zoneName, JSON.stringify(this.props.zoneToRegister, null, 2))
         .then(console.log("save success"));
         
         this.props.readAllZone();
 
         this.setState({ zoneName: ''});
-
-        
 
     }
 
