@@ -10,6 +10,8 @@ import {
 import { ethers } from "ethers";
 import Box from "3box";
 
+import zoneArtifact from "../contracts/zonesABI.json";
+import contractAddress from "../contracts/zonesAddress.json"
 
 
 import NavBar from './NavBar'
@@ -34,20 +36,10 @@ class App extends Component {
     this.setZoneToRegister = this.setZoneToRegister.bind(this);
     this.readAllZone = this.readAllZone.bind(this);
     this.deleteZone = this.deleteZone.bind(this);
-  }
 
-  async setZoneToRegister(zone) {
-    this.setState({zoneToRegister: zone});
-  }
-
-  async getAddressFromMetaMask() {
-    if (typeof window.ethereum == "undefined") {
-      this.setState({ needToAWeb3Browser: true });
-    } else {
-      window.ethereum.autoRefreshOnNetworkChange = false; //silences warning about no autofresh on network change
-      const accounts = await window.ethereum.enable();
-      this.setState({ accounts });
-    }
+    // doesnt work dont know why
+    //this._initialiseEthers = this.initialiseEthers.bind(this);
+   // this._logMetamaskError = this.logMetamaskError.bind(this);
   }
 
   async componentDidMount() {
@@ -56,6 +48,10 @@ class App extends Component {
     window.readAllZone = this.readAllZone;
     console.log(registeredZones);
     await this.getAddressFromMetaMask();
+
+    // initilising with the contract
+    //this._initialiseEthers();
+
     if (this.state.accounts) {
       console.log("connected to provider!");
       const box = await Box.openBox(this.state.accounts[0], window.ethereum);
@@ -69,6 +65,55 @@ class App extends Component {
       await space.syncDone;
       this.setState({ box, space });
       console.log("space synced! ", "zone");
+    }
+
+  }
+
+  _intialiseEthers() {
+    this._zones = new ethers.Contract(
+      contractAddress.zones,
+      zoneArtifact.abi,
+      this.state.accounts[0]
+    );
+  }
+
+  async registerZone(zoneName, parentAcc, approved) {
+    try{
+      console.log('registering ', zoneName);
+      const tx = await this._zones.registerZone(zoneName, parentAcc, false);
+      await tx.wait();
+
+      // HAVEN'T figured out how to handle the emitted events...
+      // not sure if this sollution works or not
+      console.log("successfully registered", zoneName)
+
+    } catch(error){
+      this._logMetamaskError("Error registering for " + zoneName, error);
+      console.error(error);
+    }
+  }
+
+  
+
+  _logMetamaskError(title, error) {
+    if (error.data.message) {
+      console.error(title + ":", error.data.message, error);
+    } else {
+      console.error(title, error);
+    }
+  }
+
+  async setZoneToRegister(zone) {
+    this.setState({zoneToRegister: zone});
+  }
+
+  async getAddressFromMetaMask() {
+    if (typeof window.ethereum == "undefined") {
+      this.setState({ needToAWeb3Browser: true });
+    } else {
+      window.ethereum.autoRefreshOnNetworkChange = false; //silences warning about no autofresh on network change
+      const accounts = await window.ethereum.enable();
+      this.setState({ accounts });
     }
   }
 
@@ -120,9 +165,6 @@ class App extends Component {
                     space = {this.state.space}
                     readAllZone = {this.readAllZone}
                     registeredZones = {this.state.registeredZones}/>
-                </Route>
-                <Route path="/">
-
                 </Route>
               </Switch>
             )}
