@@ -30,8 +30,10 @@ class App extends Component {
   }
 
   constructor() {
-    super()
-    this.setZoneToRegister = this.setZoneToRegister.bind(this)
+    super();
+    this.setZoneToRegister = this.setZoneToRegister.bind(this);
+    this.readAllZone = this.readAllZone.bind(this);
+    this.deleteZone = this.deleteZone.bind(this);
   }
 
   async setZoneToRegister(zone) {
@@ -49,6 +51,9 @@ class App extends Component {
   }
 
   async componentDidMount() {
+
+    window.deleteZone = this.deleteZone;
+    window.readAllZone = this.readAllZone;
     console.log(registeredZones);
     await this.getAddressFromMetaMask();
     if (this.state.accounts) {
@@ -66,6 +71,22 @@ class App extends Component {
       console.log("space synced! ", "zone");
     }
   }
+
+  async deleteZone(id) {
+    const res = await this.state.space.public.remove(id);
+    if (res) {
+      console.log("delete success!");
+    }
+  };
+
+  async readAllZone() {
+    //fetch registered accounts from etheruem
+
+    this.state.accounts.forEach(async addr => {
+      const spaceData = await Box.getSpace(addr, "zones");
+      console.log(spaceData);
+    });
+  };
 
 
   render() {
@@ -87,6 +108,7 @@ class App extends Component {
                     addr = {this.state.accounts[0]} 
                     box = {this.state.box} 
                     space = {this.state.space} 
+                    readAllZone = {this.readAllZone}
                     registeredZones = {this.state.registeredZones} 
                     zoneToRegister = {this.state.zoneToRegister} 
                     setZoneToRegister={this.setZoneToRegister} />
@@ -96,6 +118,7 @@ class App extends Component {
                     addr = {this.state.accounts[0]} 
                     box = {this.state.box} 
                     space = {this.state.space} 
+                    readAllZone = {this.readAllZone}
                     registeredZones = {this.state.registeredZones}/>
                 </Route>
                 <Route path="/">

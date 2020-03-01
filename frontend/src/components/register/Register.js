@@ -48,9 +48,6 @@ export default class Register extends Component {
             zoom: 2.7,
         });
 
-
-
-
         // Connect to contract
 
         // Pull all registered addresses
@@ -121,20 +118,17 @@ export default class Register extends Component {
     async registerPolygon(e) {
         e.preventDefault();
 
-        // console.log('yo')
-        console.log(this.props.zoneToRegister);
-        console.log(this.state.zoneName);
         // call registerZone on ethers contract ...
 
-        // Write geojson string to 3box under
 
-        let space = this.props.space;
-        let account = this.props.addr;
-
-        await space.public.set(this.state.zoneName, JSON.stringify(this.props.zoneToRegister, null, 2))
+        await this.props.space.public.set(this.state.zoneName, JSON.stringify(this.props.zoneToRegister, null, 2))
         .then(console.log("save success"));
+        
+        this.props.readAllZone();
 
         this.setState({ zoneName: ''});
+
+        
 
     }
 
