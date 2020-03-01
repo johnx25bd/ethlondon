@@ -8,14 +8,20 @@ import {
   Link
 } from "react-router-dom";
 import { ethers } from "ethers";
+import Box from "3box";
+
+
+
 import NavBar from './NavBar'
 import Register from './register/Register'
+import Approve from './approve/Approve'
+
+
 var registeredZones = require('../registeredTestZonesSmall.json');
 
 // import Approve from './approve/Approve'
 
 class App extends Component {
-
 
   state = {
     needToAWeb3Browser: false,
@@ -46,7 +52,18 @@ class App extends Component {
     console.log(registeredZones);
     await this.getAddressFromMetaMask();
     if (this.state.accounts) {
-      // Now MetaMask's provider has been enabled, we can start working with 3Box
+      console.log("connected to provider!");
+      const box = await Box.openBox(this.state.accounts[0], window.ethereum);
+      // Sync 3Box
+      await box.syncDone;
+      // window.state = this.state;
+      console.log("3Box synced");
+      // const spaceList = await Box.listSpaces(this.state.accounts[0]);
+      // console.log("number of space: " + spaceList.length);
+      const space = await box.openSpace("zones");
+      await space.syncDone;
+      this.setState({ box, space });
+      console.log("space synced! ", "zone");
     }
   }
 
@@ -66,10 +83,20 @@ class App extends Component {
             {this.state.accounts && (
               <Switch>
                 <Route path="/register">
-                  <Register addr = {this.state.accounts[0]} registeredZones = {this.state.registeredZones} zoneToRegister = {this.state.zoneToRegister} setZoneToRegister={this.setZoneToRegister} />
+                  <Register 
+                    addr = {this.state.accounts[0]} 
+                    box = {this.state.box} 
+                    space = {this.state.space} 
+                    registeredZones = {this.state.registeredZones} 
+                    zoneToRegister = {this.state.zoneToRegister} 
+                    setZoneToRegister={this.setZoneToRegister} />
                 </Route>
-                <Route path="/admin">
-
+                <Route path="/approve">
+                  <Approve 
+                    addr = {this.state.accounts[0]} 
+                    box = {this.state.box} 
+                    space = {this.state.space} 
+                    registeredZones = {this.state.registeredZones}/>
                 </Route>
                 <Route path="/">
 

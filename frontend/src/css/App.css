@@ -51,15 +51,14 @@
 
 .overlay {
   position: fixed; 
-  bottom: 150px;
-  right: 60px;
+  top: 20%;
+  right: 5%;
 
-  height: 500px;
+  
   width: 450px;
 
   background: rgba(255, 255, 255, 0.5); /* White see-through */
   color: #282c34; 
-  
 
   transition: .5s ease;
   opacity:1;
@@ -70,4 +69,18 @@
 
 .navbar {
   background: rgba(255, 255, 255, 0.5); /* White see-through */
+}
+
+.button {
+  margin : 1em;
+}
+
+.card{
+  margin : 1em;
+}
+
+.cardgroup {
+  top: 15%;
+  right: 5%;
+  padding: 0px;
 }
