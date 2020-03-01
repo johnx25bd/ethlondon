@@ -7,10 +7,10 @@ export default class Request extends Component {
     render() {
         return(
             <Card id='zone-to-register' data-zone-id='zone-to-register' border="primary" className="zone-review">
-                <Card.Header>London Congestion Zone</Card.Header>
+                <Card.Header>LONDON</Card.Header>
                 <Card.Body>
                     <Card.Text>
-                        <strong>Registrant</strong> : Greater London Authority
+                        <strong>Registrant</strong> : Greater London Authority <br />
                         <strong>Address</strong> : <a href="http://ropsten.etherscan.io/address/0x77DB10B97bbcE20656d386624ACb5469E57Dd21b" target="_blank">london.eth</a>
                     </Card.Text>
                     <Row>

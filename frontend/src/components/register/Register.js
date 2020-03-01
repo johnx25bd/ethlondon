@@ -159,7 +159,10 @@ export default class Register extends Component {
 
     await this.props.space.public
       .set(zoneID, JSON.stringify(geoJson, null, 2))
-      .then(console.log("save success"));
+      .then(function () {
+        console.log("save success")
+
+      });
 
 
     this.setState({ zoneName: "" });
