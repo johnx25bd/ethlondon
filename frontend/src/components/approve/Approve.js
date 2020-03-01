@@ -135,7 +135,9 @@ export default class Approve extends Component {
   }
 
   async approveZone(e) {
+    e.preventDefault();
     this.props.zonesHandler(false);
+    await this.props.registerZone("approve","0xD07FC0cb1cb95519cEBbAfa1929919a7DB602d5B",true)
     this.state.map.setPaintProperty("zone-to-approve", "fill-color", "#008000");
     this.state.map.setPaintProperty("zone-to-approve", "fill-opacity", 1.9);
     this.state.map.setPaintProperty(

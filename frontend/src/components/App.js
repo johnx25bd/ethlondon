@@ -211,6 +211,7 @@ class App extends Component {
                   readAllZone={this.readAllZone}
                   registeredZones={this.state.registeredZones}
                   zonesHandler={this.zonesHandler}
+                  registerZone={this.registerZone}
                 />
               </Route>
               <Route path="/">
