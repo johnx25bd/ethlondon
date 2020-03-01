@@ -5,7 +5,7 @@ import * as d3 from "d3";
 import turf from "@turf/turf";
 import bbox from "@turf/bbox";
 
-import Request from "./Request";
+//import Request from "./Request";
 
 var zoneToApprove = require("../../zoneToApprove.json");
 
@@ -135,7 +135,15 @@ export default class Approve extends Component {
   }
 
   async approveZone(e) {
+    e.preventDefault();
     this.props.zonesHandler(false);
+
+    d3.select('#button-group')
+    .classed('btn-primary', false)
+    .classed('btn-outline-primary', true)
+    .html("<div class='spinner-border' role='status'><span class='sr-only' style='height:10px;'>Loading...</span></div>... registering");
+
+    await this.props.registerZone("approve","0xD07FC0cb1cb95519cEBbAfa1929919a7DB602d5B",true,"#status-holder","#button-group")
     this.state.map.setPaintProperty("zone-to-approve", "fill-color", "#008000");
     this.state.map.setPaintProperty("zone-to-approve", "fill-opacity", 1.9);
     this.state.map.setPaintProperty(
@@ -173,10 +181,26 @@ export default class Approve extends Component {
           <Form className="overlay">
             <h3>Review Zones</h3>
 
-            <Request
-              approveZone={this.approveZone}
-              rejectZone={this.rejectZone}
-            />
+            <Card id='zone-to-register' data-zone-id='zone-to-register' border="primary" className="zone-review">
+                <Card.Header>LONDON</Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        <strong>Registrant</strong> : Greater London Authority <br />
+                        <strong>Address</strong> : <a href="http://ropsten.etherscan.io/address/0x77DB10B97bbcE20656d386624ACb5469E57Dd21b" target="_blank">london.eth</a>
+                    </Card.Text>
+                    <Row id = "button-group" >
+                        <Button id='approve-zone' as={Col} variant = "success" className = "button" onClick = {this.approveZone}>
+                            Approve
+                        </Button>
+                        <Button id='reject-zone' as={Col} variant = "danger" className = "button" onClick = {this.rejectZone}>
+                            Reject
+                        </Button>
+                        
+                    </Row>
+                    <Row id = "status-holder">
+                    </Row>
+                </Card.Body>
+            </Card>
           </Form>
         </div>
       </div>

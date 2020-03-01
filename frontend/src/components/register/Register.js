@@ -148,11 +148,13 @@ export default class Register extends Component {
     let geoJson = this.props.zoneToRegister;
     let parentAddress = geoJson.properties.address;
     let zoneID =
-      "0x77DB10B97bbcE20656d386624ACb5469E57Dd21b" + ":" + this.state.zoneName;
+      "0xD07FC0cb1cb95519cEBbAfa1929919a7DB602d5B" + ":" + this.state.zoneName;
     let res = await this.props.registerZone(
       this.state.zoneName,
       parentAddress,
-      false
+      false,
+      ".overlay",
+      "#submit-button"
     );
 
 
